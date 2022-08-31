@@ -33,9 +33,9 @@
                 <address>
                     <p>Have questions, comments or just want to say hello:</p>
                     <ul class="my_address">
-                        <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i><?php $ayarcek =[site_mail];?>
-                        <li><a href="#"><i class="fa fa-phone" aria-hidden="true"></i><?php echo $ayarcek["site_telefon"]; ?>></a></li>
-                        <li><a href="#"><i class="fa fa-map-marker" aria-hidden="true"></i><span><?php echo $ayarcek["site_adres"]; ?></span></a></li>
+                        <li><a href="https://accounts.google.com/v3/signin/identifier?dsh=S-200854979%3A1661334099843348&continue=https%3A%2F%2Faccounts.google.com%2Fb%2F1%2FAddMailService&followup=https%3A%2F%2Faccounts.google.com%2Fb%2F1%2FAddMailService&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AQN2RmV12csuyjqyxaSlMBnPGokaqgWqCl6VjXqEY5U1w7Vki_kGxSEmOuQ8eLxm5jiAhSkoNa32Yg"><i class="fa fa-envelope" aria-hidden="true"></i><?php echo $ayarcek["site_mail"]; ?></a></li>
+                        <li><a><i class="fa fa-phone" aria-hidden="true"></i><?php echo $ayarcek["site_telefon"]; ?></a></li>
+                        <li><a><i class="fa fa-map-marker" aria-hidden="true"></i><?php echo $ayarcek["site_adres"]; ?></a></li>
                     </ul>
                 </address>
             </div>
@@ -68,5 +68,10 @@
 <script src="vendors/stellar/jquery.stellar.js"></script>
 <!-- Theme JS -->
 <script src="js/theme.js"></script>
+<!-- Map JS -->
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="vendors/map/topbuilder_map.min.js"></script>
+
+<script type="text/javascript" src="/js/swal.min.js"></script>
 </body>
 </html>

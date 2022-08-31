@@ -4,8 +4,8 @@
     <section class="banner_area" data-stellar-background-ratio="0.5">
         <h2>Contact Us</h2>
         <ol class="breadcrumb">
-            <li><a href="index.php">Home</a></li>
-            <li><a href="#" class="active">Contact Us</a></li>
+            <li><a href="index.php">ANASAYFA</a></li>
+            <li><a href="#" class="active">İLETİŞİM</a></li>
         </ol>
     </section>
     <!-- End Banner area -->
@@ -41,46 +41,39 @@
                 </div>
 
                 <script>
-                     function mesajGonder() {
-                            var degerler = $("#mesajForm").serialize();
+                    function mesajGonder(){ //butona verdiğimiz id yi kullanıyoruz
+                        var degerler=$("#mesajForm").serialize(); //serialize formdaki bütün değerleri göndermemizi sağlıyor
 
-                            $.ajax({
-                                type : "POST",
-                                    url : "mesajgonder.php",
-                         data : degerler,
-                                success: function (sonuc){
-                                if(sonuc == "bos"){
+                        $.ajax({  //post işlemi için ajax kullanıyoruz
+                            type: "POST",
+                            url: "mesajgonder.php",
+                            data: degerler,
+                            success: function (sonuc){
+                                if(sonuc === "bos"){
                                     swal("Dikkat!","Lütfen boş alan bırakmayınız","warning");
-                         }else if(sonuc == "no"){
-                            swal("Hata!","Mesaj GÖnderilirken bir hata oluştu!","error");
-                         }else if(sonuc == "yes"){
-                                    swal({
-                                        title : "Tebrikler!",
-                                        text : "Mesajınız başarıyla gönderildi";
-                                        type : "success",
-                                        html : true,
-                                        timer : 2000},
-                                        function () {
-                                        location.reload():
-                                    }):
-                         }
-                         }
-                            }):
-                     }
-
+                                } else if(sonuc === "no"){
+                                    swal("Hata!","Mesaj gönderilirken hata oluştu","error");
+                                } else if(sonuc === "yes"){
+                                    swal("Tebrikler","Mesajınız Başarıyla gönderildi","success");
+                                }
+                            }
+                        });
+                    }
                 </script>
+                <!-- SWEET ALERT -->
+                <script type="text/javascript" src="/js/swal.min.js"></script>
+                <link rel="stylesheet" href="/css/swal.css">
 
 
 
                 <div class="col-sm-6 contact_info send_message">
-                    <h2>İLETİŞİME GEÇİN</h2>
-                    <form action="" method="POST" id="mesajForm" class="form-inline contact_box" onesubmit="return false">
+                    <h2>İletişime geçin</h2>
+                    <form action="" method="POST" id="mesajForm"class="form-inline contact_box" onsubmit="return false;">
                         <input type="text" name="isim" class="form-control input_box" placeholder="Adınız *">
-                        <input type="text" name="konu" class="form-control input_box" placeholder="mail *">
-                        <input type="text" name="mesaj" class="form-control input_box" placeholder="Konu">
-                        <input type="text" class="form-control input_box" placeholder="Your Website">
-                        <textarea name="mesaj" class="form-control input_box" placeholder="Mesajınız..."></textarea>
-                        <button type="submit" onclick="mesajGonder();" class="btn btn-default">Mesaj Gonder</button>
+                        <input type="text" name="mail" class="form-control input_box" placeholder="Email *">
+                        <input type="text" name="konu" class="form-control input_box" placeholder="Konu">
+                        <textarea class="form-control input_box" name="mesaj" placeholder="Mesajınız"></textarea>
+                        <button type="submit" onclick="mesajGonder();" class="btn btn-default">Mesaj Gönder</button>
                     </form>
                 </div>
             </div>

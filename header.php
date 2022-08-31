@@ -17,13 +17,9 @@ $ayarcek = $ayarlar->fetch(PDO::FETCH_ASSOC);
 
     <meta name="description" content="<?php echo $ayarcek["site_dasc"]; ?>
     <meta name="keywords" content="<?php echo $ayarcek["site_keyw"]; ?>
-
-    <!-- SWEET ALERT -->
-    <script type="text/javascript" src="js/swal.min.js"></script>
-    <link rel="stylesheet" href="css/swal.css">
-
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
     <!-- Favicon -->
-    <link rel="icon" href="images/favicon.png" type="image/x-icon"/>
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Animate CSS -->
@@ -54,7 +50,7 @@ $ayarcek = $ayarlar->fetch(PDO::FETCH_ASSOC);
         <ul class="nav navbar-nav top_nav">
             <li><a href="#"><i class="fa fa-phone"></i><?php echo $ayarcek["site_telefon"]; ?></a></li>
             <li><a href="#"><i class="fa fa-envelope-o"></i><?php echo $ayarcek["site_mail"]; ?></a></li>
-            <li><a href="#"><i class="fa fa-clock-o"></i><?php echo $ayarcek["Site_saat"]; ?></a></li>
+            <li><a href="#"><i class="fa fa-clock-o"></i><?php echo $ayarcek["site_saat"]; ?></a></li>
         </ul>
         <?php
          $sm = $db->prepare("SELECT * FROM sosyalmedya");
@@ -95,7 +91,7 @@ $ayarcek = $ayarlar->fetch(PDO::FETCH_ASSOC);
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt=""></a>
+                <a class="navbar-brand" href="index.php"><img src="images/logo.png" alt=""></a>
             </div>
         </div>
 

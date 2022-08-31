@@ -33,7 +33,7 @@
                     <p><?php echo $duyuru_cek["duyuru_aciklama"]; ?> </p>
                 </div>
                 <div class="col-md-2 p0 book_bottun">
-                    <a href="<?php echo $duyuru_cek["duyuru_link"]; ?>" class="button_all"><b style="font-size: 40px;">&rarr;</b></a>
+                    <a href="iletisım.php""<?php echo $duyuru_cek["duyuru_link"]; ?>" class="button_all"><b style="font-size: 40px;">&rarr;</b></a>
                 </div>
             </div>
         </div>
