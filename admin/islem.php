@@ -224,3 +224,95 @@ if (isset($sponsorsil_id)){
         header("Location: sponsorlar.php?sponsor-sil=no");
     }
 }
+
+//PROJE EKLE
+$dosya_turu = array("image/jpeg", "image/jpg", "image/png", "image/x-png");
+$dosya_uzanti = array("jpeg", "jpg", "png", "x-png");
+
+
+if (isset($proje_ekle)) {
+    $kaynak = $_FILES["proje_resim"]["tmp_name"]; //fotoğrafın geçici olarak yüklendigi yer veya isim
+    $isim = $_FILES["proje_resim"]["name"];  //fotoğrafın ismi
+    $boyut = $_FILES["proje_resim"]["size"]; //fotoğraf boyutu
+    $turu = $_FILES["proje_resim"]["type"]; //fotoğrafın türü
+
+    $uzanti = substr($isim, strpos($isim, ".") + 1); //noktadan sonra harften okumaya başla
+    $resimAd = substr(uniqid(rand()), 0, 11) . "_" . $isim; //Fotoğrafın yeni ismini belirledik
+    $hedef = "../images/fotograflar/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
+
+    if (!$_FILES["proje_resim"]["size"] > 0 || !$proje_isim || !$proje_link) {
+        header("Location: projelerimiz.php?proje-ekle=bos");
+
+    } else {
+        if ($kaynak) {
+            if (!in_array($turu, $dosya_turu) && !in_array($uzanti, $dosya_uzanti)) {
+                header("Location: projelerimiz.php?proje-ekle=gecersizuzanti");
+            } elseif ($boyut > 1024 * 1024 * 5) {
+                header("Location: projelerimiz.php?proje-ekle=buyuk");
+            } else {
+                if (move_uploaded_file($kaynak, $hedef)) {
+                    $query = $db->prepare("INSERT INTO projelerimiz SET proje_resim=?, proje_isim=?, proje_link=? ");
+                    $insert = $query->execute(array($resimAd, $proje_isim,$proje_link));
+                    if ($insert) {
+                        header("Location: projelerimiz.php?proje-ekle=yes");
+                    } else {
+                        header("Location: projelerimiz.php?proje-ekle=no");
+                    }
+                }
+            }
+        }
+    }
+}
+
+//PROJE GÜNCELLE
+if (isset($proje_duzenle)) {
+    $proje_id = $_GET["proje_id"];
+
+    if ($_FILES["proje_resim"]["size"] > 0) {
+
+        $kaynak = $_FILES["proje_resim"]["tmp_name"]; //fotoğrafın geçici olarak yüklendigi yer veya isim
+        $isim = $_FILES["proje_resim"]["name"];  //fotoğrafın ismi
+        $boyut = $_FILES["proje_resim"]["size"]; //fotoğraf boyutu
+        $turu = $_FILES["proje_resim"]["type"]; //fotoğrafın türü
+
+        $uzanti = substr($isim, strpos($isim, ".") + 1); //noktadan sonra harften okumaya başla
+        $resimAd = substr(uniqid(rand()), 0, 11) . "_" . $isim; //Fotoğrafın yeni ismini belirledik
+        $hedef = "../images/fotograflar/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
+
+
+        if ($kaynak) {
+            if (!in_array($turu, $dosya_turu) && !in_array($uzanti, $dosya_uzanti)) {
+                header("Location: projelerimiz.php?proje-guncelle=gecersizuzanti");
+            } elseif ($boyut > 1024 * 1024 * 5) {
+                header("Location: projelerimiz.php?proje-guncelle=buyuk");
+            } else {
+
+                // ÖNCEKİ RESMİ SİLELİM
+                $sil = $db->prepare("SELECT * FROM projelerimiz WHERE sponsor_id=?");
+                $sil->execute(array($proje_id));
+                $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
+                $eski_resim["proje_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
+
+                unlink("../images/fotograflar/".$eski_resim["proje_resim"]);
+
+                if (move_uploaded_file($kaynak, $hedef)) {
+                    $query = $db->prepare("UPDATE projelerimiz SET proje_resim=?, proje_isim=?, proje_link=? WHERE proje_id=?");
+                    $insert = $query->execute(array($resimAd, $proje_isim, $proje_link, $proje_id));
+                    if ($insert) {
+                        header("Location: projelerimiz.php?proje-guncelle=yes");
+                    } else {
+                        header("Location: projelerimiz.php?proje-guncelle=no");
+                    }
+                }
+            }
+        }
+    }else{
+        $query = $db->prepare("UPDATE sponsorlar SET sponsor_isim=?, sponsor_link=? WHERE sponsor_id=?");
+        $update = $query->execute(array($proje_isim, $proje_id));
+        if ($update) {
+            header("Location: sponsorlar.php?sponsor-guncelle=yes");
+        } else {
+            header("Location: sponsorlar.php?sponsor-guncelle=no");
+        }
+    }
+}

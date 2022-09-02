@@ -26,8 +26,8 @@
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="file" name="sponsor_resim" class="form-control"
-                                                       placeholder="Sponsor logosunu ekleyiniz"/>
+                                                <input type="file" name="proje_resim" class="form-control"/>
+
 
                                             </div>
                                         </div>
@@ -41,15 +41,28 @@
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" name="sponsor_isim" class="form-control"
-                                                       placeholder="Sponsor ismini giriniz"/></div>
+                                                <input type="text" name="proje_isim" class="form-control"
+                                                       placeholder="Proje ismini giriniz"/></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
+                                        <label for="email_address_2">Link</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="text" name="proje_link" class="form-control"
+                                                       placeholder="Proje linkini giriniz"/></div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row clearfix">
                                     <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
-                                        <button type="submit" name="sponsor_ekle"
+                                        <button type="submit" name="proje_ekle"
                                                 class="btn btn-primary m-t-15 waves-effect">Ekle
                                         </button>
                                     </div>

@@ -77,12 +77,12 @@
                     </a>
                     <ul class="ml-menu">
                         <li>
-                            <a href="projeler.php">
+                            <a href="projelerimiz.php">
                                 <span>Projeler</span>
                             </a>
                         </li>
                         <li>
-                            <a href="projeler-ekle.php">
+                            <a href="proje-ekle.php">
                                 <span>Proje Ekle</span>
                             </a>
                         </li>
