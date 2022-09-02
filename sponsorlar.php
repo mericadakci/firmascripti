@@ -11,7 +11,7 @@
 
             foreach ($sponsor_cek as $row) {
                 ?>
-                <div class="item"><img src="images/client_logo/<?php echo $row["sponsor_resim"]; ?>" alt=""></div>
+                <div class="item"><img src="images/sponsorlar/<?php echo $row["sponsor_resim"]; ?>" alt=""></div>
                 <?php
             }
             ?>

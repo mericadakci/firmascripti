@@ -70,17 +70,157 @@ if (isset($_GET["basari_id"])) {
 }
 
 //HİZMET EKLE
-if (isset($hizmet_ekle)){
+if (isset($hizmet_ekle)) {
 
-    if (!$hizmet_icon || !$hizmet_baslik || !$hizmet_aciklama){
+    if (!$hizmet_icon || !$hizmet_baslik || !$hizmet_aciklama) {
         header("Location: hizmetler.php?hizmet-ekle=bos");
-    }else{
+    } else {
         $query = $db->prepare("INSERT INTO hizmetler SET hizmet_icon=?, hizmet_baslik=?, hizmet_aciklama=?");
-        $insert = $query->execute(array($hizmet_icon,$hizmet_baslik,$hizmet_aciklama));
-        if ($insert){
+        $insert = $query->execute(array($hizmet_icon, $hizmet_baslik, $hizmet_aciklama));
+        if ($insert) {
             header("Location: hizmetler.php?hizmet-ekle=yes");
-        }else{
+        } else {
             header("Location: hizmetler.php?hizmet-ekle=no");
         }
+    }
+}
+
+//HİZMET GÜNCELLE
+if (isset($hizmet_duzenle)) {
+    $hizmet_id = $_GET["hizmet_id"];
+
+    if (!$hizmet_icon || !$hizmet_baslik || !$hizmet_aciklama) {
+        header("Location: hizmetler.php?hizmet-guncelle=bos");
+    } else {
+        $query = $db->prepare("UPDATE hizmetler SET hizmet_icon=?, hizmet_baslik=?, hizmet_aciklama=? WHERE hizmet_id=?");
+        $update = $query->execute(array($hizmet_icon, $hizmet_baslik, $hizmet_aciklama, $hizmet_id));
+        if ($update) {
+            header("Location: hizmetler.php?hizmet-guncelle=yes");
+        } else {
+            header("Location: hizmetler.php?hizmet-guncelle=no");
+        }
+    }
+}
+
+//HİZMET SİLME İŞLEMİ
+extract($_GET);
+if (isset($hizmetsil_id)) {
+    $query = $db->prepare("DELETE FROM hizmetler WHERE hizmet_id=?");
+    $delete = $query->execute(array($hizmetsil_id));
+    if ($delete) {
+        header("Location: hizmetler.php?hizmet-sil=yes");
+    } else {
+        header("Location: hizmetler.php?hizmet-sil=no");
+    }
+}
+
+//SPONSOR EKLE
+$dosya_turu = array("image/jpeg", "image/jpg", "image/png", "image/x-png");
+$dosya_uzanti = array("jpeg", "jpg", "png", "x-png");
+
+extract($_POST);
+
+if (isset($sponsor_ekle)) {
+    $kaynak = $_FILES["sponsor_resim"]["tmp_name"]; //fotoğrafın geçici olarak yüklendigi yer veya isim
+    $isim = $_FILES["sponsor_resim"]["name"];  //fotoğrafın ismi
+    $boyut = $_FILES["sponsor_resim"]["size"]; //fotoğraf boyutu
+    $turu = $_FILES["sponsor_resim"]["type"]; //fotoğrafın türü
+
+    $uzanti = substr($isim, strpos($isim, ".") + 1); //noktadan sonra harften okumaya başla
+    $resimAd = substr(uniqid(rand()), 0, 11) . "_" . $isim; //Fotoğrafın yeni ismini belirledik
+    $hedef = "../images/sponsorlar/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
+
+    if (!$_FILES["sponsor_resim"]["size"] > 0 || !$sponsor_isim) {
+       header("Location: sponsorlar.php?sponsor-ekle=bos");
+
+    } else {
+        if ($kaynak) {
+            if (!in_array($turu, $dosya_turu) && !in_array($uzanti, $dosya_uzanti)) {
+                header("Location: sponsorlar.php?sponsor-ekle=gecersizuzanti");
+            } elseif ($boyut > 1024 * 1024 * 5) {
+                header("Location: sponsorlar.php?sponsor-ekle=buyuk");
+            } else {
+                if (move_uploaded_file($kaynak, $hedef)) {
+                    $query = $db->prepare("INSERT INTO sponsorlar SET sponsor_resim=?, sponsor_isim=?");
+                    $insert = $query->execute(array($resimAd, $sponsor_isim));
+                    if ($insert) {
+                        header("Location: sponsorlar.php?sponsor-ekle=yes");
+                    } else {
+                        header("Location: sponsorlar.php?sponsor-ekle=no");
+                    }
+                }
+            }
+        }
+    }
+}
+
+//SPONSOR GÜNCELLE
+if (isset($sponsor_duzenle)) {
+    $sponsor_id = $_GET["sponsor_id"];
+
+    if ($_FILES["sponsor_resim"]["size"] > 0) {
+
+        $kaynak = $_FILES["sponsor_resim"]["tmp_name"]; //fotoğrafın geçici olarak yüklendigi yer veya isim
+        $isim = $_FILES["sponsor_resim"]["name"];  //fotoğrafın ismi
+        $boyut = $_FILES["sponsor_resim"]["size"]; //fotoğraf boyutu
+        $turu = $_FILES["sponsor_resim"]["type"]; //fotoğrafın türü
+
+        $uzanti = substr($isim, strpos($isim, ".") + 1); //noktadan sonra harften okumaya başla
+        $resimAd = substr(uniqid(rand()), 0, 11) . "_" . $isim; //Fotoğrafın yeni ismini belirledik
+        $hedef = "../images/sponsorlar/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
+
+
+        if ($kaynak) {
+            if (!in_array($turu, $dosya_turu) && !in_array($uzanti, $dosya_uzanti)) {
+                header("Location: sponsorlar.php?sponsor-guncelle=gecersizuzanti");
+            } elseif ($boyut > 1024 * 1024 * 5) {
+                header("Location: sponsorlar.php?sponsor-guncelle=buyuk");
+            } else {
+
+                // ÖNCEKİ RESMİ SİLELİM
+                $sil = $db->prepare("SELECT * FROM sponsorlar WHERE sponsor_id=?");
+                $sil->execute(array($sponsor_id));
+                $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
+                $eski_resim["sponsor_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
+
+                unlink("../images/sponsorlar/".$eski_resim["sponsor_resim"]);
+
+                if (move_uploaded_file($kaynak, $hedef)) {
+                    $query = $db->prepare("UPDATE sponsorlar SET sponsor_resim=?, sponsor_isim=? WHERE sponsor_id=?");
+                    $insert = $query->execute(array($resimAd, $sponsor_isim, $sponsor_id));
+                    if ($insert) {
+                        header("Location: sponsorlar.php?sponsor-guncelle=yes");
+                    } else {
+                        header("Location: sponsorlar.php?sponsor-guncelle=no");
+                    }
+                }
+            }
+        }
+    }else{
+        $query = $db->prepare("UPDATE sponsorlar SET sponsor_isim=? WHERE sponsor_id=?");
+                    $update = $query->execute(array($sponsor_isim, $sponsor_id));
+                    if ($update) {
+                        header("Location: sponsorlar.php?sponsor-guncelle=yes");
+                    } else {
+                        header("Location: sponsorlar.php?sponsor-guncelle=no");
+                    }
+    }
+}
+
+//SPONSOR SİLME İŞLEMİ
+if (isset($sponsorsil_id)){
+    $sil = $db->prepare("SELECT * FROM sponsorlar WHERE sponsor_id=?");
+    $sil->execute(array($sponsorsil_id));
+    $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
+    $eski_resim["sponsor_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
+
+    unlink("../images/sponsorlar/".$eski_resim["sponsor_resim"]);
+
+    $query = $db->prepare("DELETE FROM sponsorlar WHERE sponsor_id=?");
+    $delete = $query->execute(array($sponsorsil_id));
+    if ($delete) {
+        header("Location: sponsorlar.php?sponsor-sil=yes");
+    } else {
+        header("Location: sponsorlar.php?sponsor-sil=no");
     }
 }

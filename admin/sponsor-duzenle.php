@@ -5,17 +5,18 @@
 <?php include "sidebar.php"; ?>
 
 <?php
-$hizmet_id = $_GET["hizmet_id"];
-$hizmetler = $db->prepare("SELECT * FROM hizmetler WHERE hizmet_id=?");
-$hizmetler->execute(array($hizmet_id));
-$hizmet_cek = $hizmetler->fetch(PDO::FETCH_ASSOC);
+$sponsor_id = $_GET["sponsor_id"];
+$sponsorlar = $db->prepare("SELECT * FROM sponsorlar WHERE sponsor_id=?");
+$sponsorlar->execute(array($sponsor_id));
+$sponsor_cek = $sponsorlar->fetch(PDO::FETCH_ASSOC);
+
 ?>
 
 <!-- CONTENT -->
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
-            <h2>HİZMET DüZENLE</h2>
+            <h2>SPONSOR DÜZENLE</h2>
         </div>
 
         <!-- Widgets -->
@@ -24,56 +25,52 @@ $hizmet_cek = $hizmetler->fetch(PDO::FETCH_ASSOC);
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="body">
-                            <form action="islem.php?hizmet_id=<?php echo $hizmet_cek["hizmet_id"]; ?>" method="POST"
-                                  class="form-horizontal">
-                                <div class="row clearfix">
-                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="email_address_2">Icon</label>
+                            <form action="islem.php?sponsor_id=<?php echo $sponsor_cek["sponsor_id"]; ?>" method="POST" class="form-horizontal"
+                                  enctype="multipart/form-data">
 
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label"><label
+                                                for="email_address_2">Fotoğraf</label>
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" name="hizmet_icon" class="form-control"value="<?php echo $hizmet_cek["hizmet_icon"]; ?>">
+                                                <img width="100" height="50" src="../images/sponsorlar/<?= $sponsor_cek["sponsor_resim"]; ?>" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row clearfix">
+                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label"><label
+                                                for="email_address_2">Fotoğraf</label>
+                                    </div>
+                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                <input type="file" name="sponsor_resim" class="form-control"/>
+
 
                                             </div>
-                                            <small>Iconlarınızı <a href="https://fontawesome.com/">Font Awesome</a> bu
-                                                linkten seçebilirsiniz. </small>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="email_address_2">Başlık</label>
+                                        <label for="email_address_2">İsim</label>
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" name="hizmet_baslik" class="form-control"
-                                                       value="<?php echo $hizmet_cek["hizmet_baslik"]; ?>"/></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row clearfix">
-                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label>Açıklama</label>
-                                    </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <textarea name="hizmet_aciklama"
-                                                          class="ckeditor"><?php echo $hizmet_cek["hizmet_aciklama"]; ?></textarea>
-
-                                            </div>
+                                                <input type="text" name="sponsor_isim" class="form-control"
+                                                       value="<?= $sponsor_cek["sponsor_isim"]; ?>"/></div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row clearfix">
                                     <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
-                                        <button type="submit" name="hizmet_duzenle"
+                                        <button type="submit" name="sponsor_duzenle"
                                                 class="btn btn-primary m-t-15 waves-effect">Güncelle
                                         </button>
                                     </div>
@@ -86,4 +83,4 @@ $hizmet_cek = $hizmetler->fetch(PDO::FETCH_ASSOC);
         </div>
 </section>
 <!-- FOOTER -->
-<?php include "footer.php"; ?>
+<?php include "footer.php"; ?>x

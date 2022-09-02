@@ -72,6 +72,42 @@
                 </li>
                 <li>
                     <a href="javascript:void(0);" class="menu-toggle">
+                        <i class="material-icons">work</i>
+                        <span>Proje Yönetimi</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li>
+                            <a href="projeler.php">
+                                <span>Projeler</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="projeler-ekle.php">
+                                <span>Proje Ekle</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle">
+                        <i class="material-icons">grain</i>
+                        <span>Sponsor Yönetim</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li>
+                            <a href="sponsorlar.php">
+                                <span>Sponsorlar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="sponsor-ekle.php">
+                                <span>Sponsor Ekle</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle">
                         <i class="material-icons">settings_applications</i>
                         <span>Genel Ayarlar</span>
                     </a>

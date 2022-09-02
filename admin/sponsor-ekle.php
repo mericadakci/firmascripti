@@ -8,7 +8,7 @@
 <section class="content">
     <div class="container-fluid">
         <div class="block-header">
-            <h2>HİZMET EKLE</h2>
+            <h2>SPONSOR EKLE</h2>
         </div>
 
         <!-- Widgets -->
@@ -17,55 +17,39 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="card">
                         <div class="body">
-                            <form action="islem.php" method="POST" class="form-horizontal">
+                            <form action="islem.php" method="POST" class="form-horizontal" enctype="multipart/form-data">
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="email_address_2">Icon</label>
+                                        <label for="email_address_2">Fotoğraf</label>
 
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" name="hizmet_icon" class="form-control"
-                                                       placeholder="Hizmet iconunu giriniz"/>
+                                                <input type="file" name="sponsor_resim" class="form-control"
+                                                       placeholder="Sponsor logosunu ekleyiniz"/>
 
                                             </div>
-                                            <small>Iconlarınızı <a href="https://fontawesome.com/">Font Awesome</a> bu
-                                                linkten seçebilirsiniz. </small>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="email_address_2">Başlık</label>
+                                        <label for="email_address_2">İsim</label>
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" name="hizmet_baslik" class="form-control"
-                                                       placeholder="Hizmet başlık giriniz"/></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row clearfix">
-                                    <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label>Açıklama</label>
-                                    </div>
-                                    <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                <textarea name="hizmet_aciklama" class="ckeditor"
-                                                          placeholder="Hizmet açıklamasını giriniz"></textarea>
-                                            </div>
+                                                <input type="text" name="sponsor_isim" class="form-control"
+                                                       placeholder="Sponsor ismini giriniz"/></div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row clearfix">
                                     <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">
-                                        <button type="submit" name="hizmet_ekle"
+                                        <button type="submit" name="sponsor_ekle"
                                                 class="btn btn-primary m-t-15 waves-effect">Ekle
                                         </button>
                                     </div>

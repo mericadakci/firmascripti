@@ -11,7 +11,7 @@
         foreach ($proje_cek as $row) {
             ?>
             <div class="col-md-3 col-sm-4 col-xs-6 gallery_iner p0">
-                <img src="images/gallery/<?php echo $row["proje_resim"]; ?>" alt="">
+                <img src="images/fotograflar/<?php echo $row["proje_resim"]; ?>" alt="">
                 <div class="gallery_hover">
                     <h4><?php echo $row["proje_isim"]; ?></h4>
                     <a href="<?php echo $row["proje_link"]; ?>">PROJEYİ GÖSTER</a>
