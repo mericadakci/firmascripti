@@ -15,7 +15,7 @@
                     <div class="media">
                         <div class="media-left">
                             <a href="#">
-                                <img style="border-radius: 50%" class="media-object" src="images/<?php echo $row["yorum_resim"]; ?>" alt="">
+                                <img style="border-radius: 50%" class="media-object" src="images/yorumlar/<?php echo $row["yorum_resim"]; ?>" alt="">
                             </a>
                         </div>
                         <div class="media-body">
@@ -23,7 +23,7 @@
                             <h6><?php echo $row["yorum_meslek"]; ?></h6>
                         </div>
                     </div>
-                    <p><i class="fa fa-quote-right" aria-hidden="true"></i><?php echo $row["yorum_açıklama"]; ?><i class="fa fa-quote-left" aria-hidden="true"></i></p>
+                    <p><i class="fa fa-quote-right" aria-hidden="true"></i><?php echo $row["yorum_aciklama"]; ?><i class="fa fa-quote-left" aria-hidden="true"></i></p>
                 </div>
             <?php
             }

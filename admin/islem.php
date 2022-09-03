@@ -307,12 +307,119 @@ if (isset($proje_duzenle)) {
             }
         }
     }else{
-        $query = $db->prepare("UPDATE sponsorlar SET sponsor_isim=?, sponsor_link=? WHERE sponsor_id=?");
-        $update = $query->execute(array($proje_isim, $proje_id));
+        $query = $db->prepare("UPDATE projelerimiz SET proje_isim=?, proje_link=? WHERE proje_id=?");
+        $update = $query->execute(array($proje_isim, $proje_link, $proje_id));
         if ($update) {
-            header("Location: sponsorlar.php?sponsor-guncelle=yes");
+            header("Location: projelerimiz.php?proje-guncelle=yes");
         } else {
-            header("Location: sponsorlar.php?sponsor-guncelle=no");
+            header("Location: projelerimiz.php?proje-guncelle=no");
+        }
+    }
+}
+
+//PROJE SİLME İŞLEMİ
+if (isset($projesil_id)){
+    $sil = $db->prepare("SELECT * FROM projelerimiz WHERE proje_id=?");
+    $sil->execute(array($projesil_id));
+    $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
+    $eski_resim["proje_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
+
+    unlink("../images/fotograflar/".$eski_resim["proje_resim"]);
+
+    $query = $db->prepare("DELETE FROM projelerimiz WHERE proje_id=?");
+    $delete = $query->execute(array($projesil_id));
+    if ($delete) {
+        header("Location: projelerimiz.php?proje-sil=yes");
+    } else {
+        header("Location: projelerimiz.php?proje-sil=no");
+    }
+}
+
+//YORUM EKLE
+
+if (isset($yorum_ekle)) {
+    $kaynak = $_FILES["yorum_resim"]["tmp_name"]; //fotoğrafın geçici olarak yüklendigi yer veya isim
+    $isim = $_FILES["yorum_resim"]["name"];  //fotoğrafın ismi
+    $boyut = $_FILES["yorum_resim"]["size"]; //fotoğraf boyutu
+    $turu = $_FILES["yorum_resim"]["type"]; //fotoğrafın türü
+
+    $uzanti = substr($isim, strpos($isim, ".") + 1); //noktadan sonra harften okumaya başla
+    $resimAd = substr(uniqid(rand()), 0, 11) . "_" . $isim; //Fotoğrafın yeni ismini belirledik
+    $hedef = "../images/yorumlar/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
+
+    if (!$_FILES["yorum_resim"]["size"] > 0 || !$yorum_isim || !$yorum_meslek || !$yorum_aciklama) {
+        header("Location: yorumlar.php?yorum-ekle=bos");
+
+    } else {
+        if ($kaynak) {
+            if (!in_array($turu, $dosya_turu) && !in_array($uzanti, $dosya_uzanti)) {
+                header("Location: yorumlar.php?yorum-ekle=gecersizuzanti");
+            } elseif ($boyut > 1024 * 1024 * 5) {
+                header("Location: yorumlar.php?yorum-ekle=buyuk");
+            } else {
+                if (move_uploaded_file($kaynak, $hedef)) {
+                    $query = $db->prepare("INSERT INTO yorumlar SET yorum_resim=?, yorum_isim=?, yorum_meslek=?, yorum_aciklama=?");
+                    $insert = $query->execute(array($resimAd, $yorum_isim,$yorum_meslek,$yorum_aciklama));
+                    if ($insert) {
+                        header("Location: yorumlar.php?yorum-ekle=yes");
+                    } else {
+                        header("Location: yorumlar.php?yorum-ekle=no");
+                    }
+                }
+            }
+        }
+    }
+}
+
+//YORUM GÜNCELLE
+if (isset($yorum_duzenle)) {
+    $yorumlar_id = $_GET["yorumlar_id"];
+
+    if ($_FILES["yorum_resim"]["size"] > 0) {
+
+        $kaynak = $_FILES["yorum_resim"]["tmp_name"]; //fotoğrafın geçici olarak yüklendigi yer veya isim
+        $isim = $_FILES["yorum_resim"]["name"];  //fotoğrafın ismi
+        $boyut = $_FILES["yorum_resim"]["size"]; //fotoğraf boyutu
+        $turu = $_FILES["yorum_resim"]["type"]; //fotoğrafın türü
+
+        $uzanti = substr($isim, strpos($isim, ".") + 1); //noktadan sonra harften okumaya başla
+        $resimAd = substr(uniqid(rand()), 0, 11) . "_" . $isim; //Fotoğrafın yeni ismini belirledik
+        $hedef = "../images/yorumlar/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
+
+
+        if ($kaynak) {
+            if (!in_array($turu, $dosya_turu) && !in_array($uzanti, $dosya_uzanti)) {
+                header("Location: yorumlar.php?yorum-guncelle=gecersizuzanti");
+            } elseif ($boyut > 1024 * 1024 * 5) {
+                header("Location: yorumlar.php?yorum-guncelle=buyuk");
+            } else {
+
+                // ÖNCEKİ RESMİ SİLELİM
+                $sil = $db->prepare("SELECT * FROM yorumlar WHERE yorumlar_id=?");
+                $sil->execute(array($yorumlar_id));
+                $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
+                $eski_resim["yorum_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
+
+                unlink("../images/yorumlar/".$eski_resim["yorum_resim"]);
+
+                if (move_uploaded_file($kaynak, $hedef)) {
+                    $query = $db->prepare("UPDATE yorumlar SET yorum_resim=?, yorum_isim=?, yorum_meslek=?, yorum_aciklama=? WHERE yorumlar_id=?");
+                    $update = $query->execute(array($resimAd, $yorum_isim, $yorum_meslek, $yorum_aciklama, $yorumlar_id));
+                    if ($update) {
+                        header("Location: yorumlar.php?yorum-guncelle=yes");
+                    } else {
+                        header("Location: yorumlar.php?yorum-guncelle=no");
+                    }
+                }
+            }
+        }
+    }else{
+        $query = $db->prepare("UPDATE yorumlar SET yorum_isim=?, yorum_meslek=?, yorum_aciklama WHERE yorumlar_id=?");
+        $update = $query->execute(array($yorum_isim, $yorum_meslek, $yorum_aciklama, $yorumlar_id));
+        if ($update) {
+            header("Location: yorumlar.php?yorum-guncelle=yes");
+        } else {
+            header("Location: yorumlar.php?yorum-guncelle=no");
         }
     }
 }

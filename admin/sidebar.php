@@ -72,6 +72,24 @@
                 </li>
                 <li>
                     <a href="javascript:void(0);" class="menu-toggle">
+                        <i class="material-icons">comment</i>
+                        <span>Yorumlar Yönetimi</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li>
+                            <a href="yorumlar.php">
+                                <span>Yorumlar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="yorum-ekle.php">
+                                <span>Yorum Ekle</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle">
                         <i class="material-icons">work</i>
                         <span>Proje Yönetimi</span>
                     </a>
