@@ -72,6 +72,24 @@
                 </li>
                 <li>
                     <a href="javascript:void(0);" class="menu-toggle">
+                        <i class="material-icons">view_carousel</i>
+                        <span>Slayt Yönetimi</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li>
+                            <a href="slider.php">
+                                <span>Slaytlar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="slide-ekle.php">
+                                <span>Slayt Ekle</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle">
                         <i class="material-icons">person</i>
                         <span>Ekip Yönetimi</span>
                     </a>

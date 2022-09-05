@@ -8,7 +8,7 @@
 <?php
 $ekip_id = $_GET["ekip_id"];
 $ekip = $db->prepare("SELECT * FROM ekip WHERE ekip_id=?");
-$ekip->execute(array($yorumlar_id));
+$ekip->execute(array($ekip_id));
 $ekip_cek = $ekip->fetch(PDO::FETCH_ASSOC);
 ?>
 
@@ -29,7 +29,7 @@ $ekip_cek = $ekip->fetch(PDO::FETCH_ASSOC);
                                   enctype="multipart/form-data">
                                 <div class="row clearfix">
                                     <div class="col-lg-2 col-md-2 col-sm-4 col-xs-5 form-control-label">
-                                        <label for="email_address_2">Fotoğraf</label>
+                                        <label for="email_address_2">Yüklü Fotoğraf</label>
                                         <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                             <div class="form-group">
                                                 <div class="form-line">
@@ -56,7 +56,7 @@ $ekip_cek = $ekip->fetch(PDO::FETCH_ASSOC);
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" name="yorum_isim" class="form-control"<?= $ekip_cek["ekip_isim"]; ?>>
+                                                <input type="text" name="ekip_isim" class="form-control"<?= $ekip_cek["ekip_isim"]; ?>>
                                             </div>
 
                                         </div>
@@ -70,7 +70,7 @@ $ekip_cek = $ekip->fetch(PDO::FETCH_ASSOC);
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" name="yorum_meslek" class="form-control"<?= $ekip_cek["ekip_mevki"]; ?>/>
+                                                <input type="text" name="ekip_mevki" class="form-control"<?= $ekip_cek["ekip_mevki"]; ?>/>
                                             </div>
 
                                         </div>
@@ -84,7 +84,7 @@ $ekip_cek = $ekip->fetch(PDO::FETCH_ASSOC);
                                     <div class="col-lg-10 col-md-10 col-sm-8 col-xs-7">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <input type="text" name="ekip_facenook" class="form-control"<?= $ekip_cek["ekip_facebook"]; ?>/>
+                                                <input type="text" name="ekip_facebook" class="form-control"<?= $ekip_cek["ekip_facebook"]; ?>/>
                                             </div>
 
                                         </div>
@@ -118,8 +118,6 @@ $ekip_cek = $ekip->fetch(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
                                 </div>
-
-
 
                                 <div class="row clearfix">
                                     <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-4 col-xs-offset-5">

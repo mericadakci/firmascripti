@@ -424,7 +424,7 @@ if (isset($yorum_duzenle)) {
     }
 }
 
-//PROJE SİLME İŞLEMİ
+//YORUM SİLME İŞLEMİ
 if (isset($yorumsil_id)){
     $sil = $db->prepare("SELECT * FROM yorumlar WHERE yorumlar_id=?");
     $sil->execute(array($yorumsil_id));
@@ -527,6 +527,113 @@ if (isset($ekip_duzenle)) {
             header("Location: ekipler.php?ekip-guncelle=yess");
         } else {
             header("Location: ekipler.php?ekip-guncelle=no");
+        }
+    }
+}
+
+//EKİP SİLME İŞLEMİ
+if (isset($ekipsil_id)){
+    $sil = $db->prepare("SELECT * FROM ekip WHERE ekip_id=?");
+    $sil->execute(array($ekipsil_id));
+    $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
+    $eski_resim["ekip_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
+
+    unlink("../images/ekipler/".$eski_resim["ekip_resim"]);
+
+    $query = $db->prepare("DELETE FROM ekip WHERE ekip_id=?");
+    $delete = $query->execute(array($ekipsil_id));
+    if ($delete) {
+        header("Location: ekipler.php?ekip-sil=yes");
+    } else {
+        header("Location: ekipler.php?ekip-sil=no");
+    }
+}
+
+//SLAYT EKLE
+
+if (isset($slider_ekle)) {
+    $kaynak = $_FILES["slider_resim"]["tmp_name"]; //fotoğrafın geçici olarak yüklendigi yer veya isim
+    $isim = $_FILES["slider_resim"]["name"];  //fotoğrafın ismi
+    $boyut = $_FILES["slider_resim"]["size"]; //fotoğraf boyutu
+    $turu = $_FILES["slider_resim"]["type"]; //fotoğrafın türü
+
+    $uzanti = substr($isim, strpos($isim, ".") + 1); //noktadan sonra harften okumaya başla
+    $resimAd = substr(uniqid(rand()), 0, 11) . "_" . $isim; //Fotoğrafın yeni ismini belirledik
+    $hedef = "../images/slider/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
+
+    if (!$_FILES["slider_resim"]["size"] > 0 || !$slider_renklibaslik || !$slider_normalbaslik || !$slider_link || !$slider_aciklama) {
+        header("Location: slider.php?slide-ekle=bos");
+
+    } else {
+        if ($kaynak) {
+            if (!in_array($turu, $dosya_turu) && !in_array($uzanti, $dosya_uzanti)) {
+                header("Location: slider.php?slide-ekle=gecersizuzanti");
+            } elseif ($boyut > 1024 * 1024 * 5) {
+                header("Location: slider.php?slide-ekle=buyuk");
+            } else {
+                if (move_uploaded_file($kaynak, $hedef)) {
+                    $query = $db->prepare("INSERT INTO slider SET slider_resim=?, slider_renklibaslik=?, slider_normalbaslik=?, slider_link=?, slider_aciklama=?");
+                    $insert = $query->execute(array($resimAd, $slider_renklibaslik,$slider_normalbaslik,$slider_link,$slider_aciklama));
+                    if ($insert) {
+                        header("Location: slider.php?slide-ekle=yes");
+                    } else {
+                        header("Location: slider.php?slide-ekle=no");
+                    }
+                }
+            }
+        }
+    }
+}
+
+//SLAYT GÜNCELLE
+if (isset($slide_duzenle)) {
+    $slider_id = $_GET["slider_id"];
+
+    if ($_FILES["slider_resim"]["size"] > 0) {
+
+        $kaynak = $_FILES["slider_resim"]["tmp_name"]; //fotoğrafın geçici olarak yüklendigi yer veya isim
+        $isim = $_FILES["slider_resim"]["name"];  //fotoğrafın ismi
+        $boyut = $_FILES["slider_resim"]["size"]; //fotoğraf boyutu
+        $turu = $_FILES["slider_resim"]["type"]; //fotoğrafın türü
+
+        $uzanti = substr($isim, strpos($isim, ".") + 1); //noktadan sonra harften okumaya başla
+        $resimAd = substr(uniqid(rand()), 0, 11) . "_" . $isim; //Fotoğrafın yeni ismini belirledik
+        $hedef = "../images/slider/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
+
+
+        if ($kaynak) {
+            if (!in_array($turu, $dosya_turu) && !in_array($uzanti, $dosya_uzanti)) {
+                header("Location: slider.php?slide-guncelle=gecersizuzanti");
+            } elseif ($boyut > 1024 * 1024 * 5) {
+                header("Location: slider.php?slide-guncelle=buyuk");
+            } else {
+
+                // ÖNCEKİ RESMİ SİLELİM
+                $sil = $db->prepare("SELECT * FROM slider WHERE slider_id=?");
+                $sil->execute(array($slider_id));
+                $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
+                $eski_resim["slider_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
+
+                unlink("../images/slider/".$eski_resim["slider_resim"]);
+
+                if (move_uploaded_file($kaynak, $hedef)) {
+                    $query = $db->prepare("UPDATE slider SET slider_resim=?, slider_renklibaslik=?, slider_normalbaslik=?, slider_aciklama=?, slider_link=? WHERE slider_id=?");
+                    $update = $query->execute(array($resimAd, $slider_renklibaslik, $slider_normalbaslik, $slider_aciklama, $slider_link, $slider_id));
+                    if ($update) {
+                        header("Location: slider.php?slide-guncelle=yes");
+                    } else {
+                        header("Location: slider.php?slide-guncelle=no");
+                    }
+                }
+            }
+        }
+    }else{
+        $query = $db->prepare("UPDATE slider SET slider_renklibaslik=?, slider_normalbaslik=?, slider_aciklama=?, slider_link=? WHERE slider_id=?");
+        $update = $query->execute(array($slider_renklibaslik, $slider_normalbaslik, $slider_aciklama, $slider_link, $slider_id));
+        if ($update) {
+            header("Location: slider.php?slide-guncelle=yess");
+        } else {
+            header("Location: slider.php?slide-guncelle=no");
         }
     }
 }
