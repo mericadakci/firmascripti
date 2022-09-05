@@ -417,9 +417,116 @@ if (isset($yorum_duzenle)) {
         $query = $db->prepare("UPDATE yorumlar SET yorum_isim=?, yorum_meslek=?, yorum_aciklama WHERE yorumlar_id=?");
         $update = $query->execute(array($yorum_isim, $yorum_meslek, $yorum_aciklama, $yorumlar_id));
         if ($update) {
-            header("Location: yorumlar.php?yorum-guncelle=yes");
+            header("Location: yorumlar.php?yorum-guncelle=yess");
         } else {
             header("Location: yorumlar.php?yorum-guncelle=no");
+        }
+    }
+}
+
+//PROJE SİLME İŞLEMİ
+if (isset($yorumsil_id)){
+    $sil = $db->prepare("SELECT * FROM yorumlar WHERE yorumlar_id=?");
+    $sil->execute(array($yorumsil_id));
+    $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
+    $eski_resim["yorum_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
+
+    unlink("../images/yorumlar/".$eski_resim["yorum_resim"]);
+
+    $query = $db->prepare("DELETE FROM yorumlar WHERE yorumlar_id=?");
+    $delete = $query->execute(array($yorumsil_id));
+    if ($delete) {
+        header("Location: yorumlar.php?yorum-sil=yes");
+    } else {
+        header("Location: yorumlar.php?yorum-sil=no");
+    }
+}
+
+//EKİP EKLE
+
+if (isset($ekip_ekle)) {
+    $kaynak = $_FILES["ekip_resim"]["tmp_name"]; //fotoğrafın geçici olarak yüklendigi yer veya isim
+    $isim = $_FILES["ekip_resim"]["name"];  //fotoğrafın ismi
+    $boyut = $_FILES["ekip_resim"]["size"]; //fotoğraf boyutu
+    $turu = $_FILES["ekip_resim"]["type"]; //fotoğrafın türü
+
+    $uzanti = substr($isim, strpos($isim, ".") + 1); //noktadan sonra harften okumaya başla
+    $resimAd = substr(uniqid(rand()), 0, 11) . "_" . $isim; //Fotoğrafın yeni ismini belirledik
+    $hedef = "../images/ekipler/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
+
+    if (!$_FILES["ekip_resim"]["size"] > 0 || !$ekip_isim || !$ekip_mevki || !$ekip_facebook || !$ekip_twitter || !$ekip_linkedin) {
+        header("Location: ekipler.php?ekip-ekle=bos");
+
+    } else {
+        if ($kaynak) {
+            if (!in_array($turu, $dosya_turu) && !in_array($uzanti, $dosya_uzanti)) {
+                header("Location: ekipler.php?ekip-ekle=gecersizuzanti");
+            } elseif ($boyut > 1024 * 1024 * 5) {
+                header("Location: ekipler.php?ekip-ekle=buyuk");
+            } else {
+                if (move_uploaded_file($kaynak, $hedef)) {
+                    $query = $db->prepare("INSERT INTO ekip SET ekip_resim=?, ekip_isim=?, ekip_mevki=?, ekip_facebook=?, ekip_twitter=?, ekip_linkedin=?");
+                    $insert = $query->execute(array($resimAd, $ekip_isim,$ekip_mevki,$ekip_facebook,$ekip_twitter,$ekip_linkedin));
+                    if ($insert) {
+                        header("Location: ekipler.php?ekip-ekle=yes");
+                    } else {
+                        header("Location: ekipler.php?ekip-ekle=no");
+                    }
+                }
+            }
+        }
+    }
+}
+
+//EKİP GÜNCELLE
+if (isset($ekip_duzenle)) {
+    $ekip_id = $_GET["ekip_id"];
+
+    if ($_FILES["ekip_resim"]["size"] > 0) {
+
+        $kaynak = $_FILES["ekip_resim"]["tmp_name"]; //fotoğrafın geçici olarak yüklendigi yer veya isim
+        $isim = $_FILES["ekip_resim"]["name"];  //fotoğrafın ismi
+        $boyut = $_FILES["ekip_resim"]["size"]; //fotoğraf boyutu
+        $turu = $_FILES["ekip_resim"]["type"]; //fotoğrafın türü
+
+        $uzanti = substr($isim, strpos($isim, ".") + 1); //noktadan sonra harften okumaya başla
+        $resimAd = substr(uniqid(rand()), 0, 11) . "_" . $isim; //Fotoğrafın yeni ismini belirledik
+        $hedef = "../images/ekipler/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
+
+
+        if ($kaynak) {
+            if (!in_array($turu, $dosya_turu) && !in_array($uzanti, $dosya_uzanti)) {
+                header("Location: ekipler.php?ekip-guncelle=gecersizuzanti");
+            } elseif ($boyut > 1024 * 1024 * 5) {
+                header("Location: ekipler.php?ekip-guncelle=buyuk");
+            } else {
+
+                // ÖNCEKİ RESMİ SİLELİM
+                $sil = $db->prepare("SELECT * FROM ekip WHERE ekip_id=?");
+                $sil->execute(array($ekip_id));
+                $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
+                $eski_resim["ekip_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
+
+                unlink("../images/ekipler/".$eski_resim["ekip_resim"]);
+
+                if (move_uploaded_file($kaynak, $hedef)) {
+                    $query = $db->prepare("UPDATE ekip SET ekip_resim=?, ekip_isim=?, ekip_mevki=?, ekip_facebook=?, ekip_twitter=?, ekip_linkedin=? WHERE ekip_id=?");
+                    $update = $query->execute(array($resimAd, $ekip_isim, $ekip_mevki, $ekip_facebook, $ekip_twitter, $ekip_linkedin, $ekip_id));
+                    if ($update) {
+                        header("Location: ekipler.php?ekip-guncelle=yes");
+                    } else {
+                        header("Location: ekipler.php?ekip-guncelle=no");
+                    }
+                }
+            }
+        }
+    }else{
+        $query = $db->prepare("UPDATE ekip SET ekip_isim=?, ekip_mevki=?, ekip_facebook=?, ekip_twitter=?, ekip_linkedin=? WHERE ekip_id=?");
+        $update = $query->execute(array($ekip_isim, $ekip_mevki, $ekip_facebook, $ekip_twitter, $ekip_linkedin, $ekip_id));
+        if ($update) {
+            header("Location: ekipler.php?ekip-guncelle=yess");
+        } else {
+            header("Location: ekipler.php?ekip-guncelle=no");
         }
     }
 }

@@ -13,7 +13,7 @@
 
                 <div class="col-md-3 col-sm-6 wow fadeInUp">
                     <div class="team_membar">
-                        <img src="images/team/<?php echo $row["ekip_resim"]; ?>" alt="">
+                        <img src="images/ekipler/<?php echo $row["ekip_resim"]; ?>" alt="">
                         <div class="team_content">
                             <ul>
                                 <li><a href="<?php echo $row["ekip_facebook"]; ?>"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>

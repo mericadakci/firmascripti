@@ -9,61 +9,61 @@
     <div class="container-fluid">
         <!-- GERİ DÖNÜŞ UYARILARI -->
         <?php
-        if ($_GET["yorum-guncelle"] == "bos") {
+        if ($_GET["ekip-guncelle"] == "bos") {
             ?>
             <div class="alert alert-warning">
                 <strong>Dikkat!</strong> Lütfen boş alan bırakmayınız...
             </div>
             <?php
-        } else if ($_GET["yorum-guncelle"] == "yes") {
+        } else if ($_GET["ekip-guncelle"] == "yes") {
             ?>
             <div class="alert alert-success">
                 <strong>Tebrikler!</strong> İşleminiz başarıyla gerçekleşti...
             </div>
             <?php
-        } else if ($_GET["yorum-guncelle"] == "no") {
+        } else if ($_GET["ekip-guncelle"] == "no") {
             ?>
             <div class="alert alert-danger">
                 <strong>Hata!</strong> İşleminiz gerçekleştirirken bir hata oluştu...
             </div>
             <?php
-        } elseif ($_GET["yorum-ekle"] == "bos") {
+        } elseif ($_GET["ekip-ekle"] == "bos") {
             ?>
             <div class="alert alert-warning">
                 <strong>Dikkat!</strong> Lütfen boş alan bırakmayınız...
             </div>
             <?php
-        } elseif ($_GET["yorum-ekle"] == "yes") {
+        } elseif ($_GET["ekip-ekle"] == "yes") {
             ?>
             <div class="alert alert-success">
                 <strong>Tebrikler!</strong> İşleminiz başarıyla gerçekleşti...
             </div>
             <?php
-        } elseif ($_GET["yorum-ekle"] == "no") {
+        } elseif ($_GET["ekip-ekle"] == "no") {
             ?>
             <div class="alert alert-danger">
                 <strong>Hata!</strong> İşleminiz gerçekleştirirken bir hata oluştu...
             </div>
             <?php
-        }elseif($_GET["yorum-ekle"]=="gecersizuzanti"){
+        }elseif($_GET["ekip-ekle"]=="gecersizuzanti"){
             ?>
             <div class="alert alert-warning">
                 <strong>Dikkat!</strong> Lütfen boş alan bırakmayınız...
             </div>
         <?php
-        }elseif($_GET["yorum-ekle"]=="buyuk"){
+        }elseif($_GET["ekip-ekle"]=="buyuk"){
             ?>
             <div class="alert alert-warning">
                 <strong>Dikkat!</strong> En fazla 5 MB'lık fotoğraf yükleyebilirsiniz.
             </div>
         <?php
-        }elseif($_GET["yorumsil"]=="yes"){
+        }elseif($_GET["ekipsil"]=="yes"){
             ?>
             <div class="alert alert-success">
                 <strong>Tebrikler!</strong> İşleminiz başarıyla gerçekleşti...
             </div>
         <?php
-        }elseif($_GET["yorumsil"]=="no"){
+        }elseif($_GET["ekipsil"]=="no"){
             ?>
             <div class="alert alert-danger">
                 <strong>Hata!</strong> İşleminiz gerçekleştirirken bir hata oluştu...
@@ -73,7 +73,7 @@
         ?>
         <!-- END GERİ DÖNÜŞ UYARILARI -->
         <div class="block-header">
-            <h2>YORUMLAR</h2>
+            <h2>EKİPLER</h2>
         </div>
 
         <!-- CONTENT   -->
@@ -87,31 +87,31 @@
                                 <th>#</th>
                                 <th>Fotoğraf</th>
                                 <th>İsim</th>
-                                <th>Meslek</th>
+                                <th>Mevki</th>
                                 <th>İşlemler</th>
 
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            $yorumlar = $db->prepare("SELECT * FROM yorumlar ORDER BY yorumlar_id DESC");
-                            $yorumlar->execute();
-                            $yorum_cek = $yorumlar->fetchAll(PDO::FETCH_ASSOC);
-                            $say = $yorumlar->rowCount();
+                            $ekip = $db->prepare("SELECT * FROM ekip ORDER BY ekip_id DESC");
+                            $ekip->execute();
+                            $ekip_cek = $ekip->fetchAll(PDO::FETCH_ASSOC);
+                            $say = $ekip->rowCount();
 
                             if ($say) {
-                                foreach ($yorum_cek as $row) {
+                                foreach ($ekip_cek as $row) {
                                     ?>
                                     <tr>
-                                        <th scope="row"><?php echo $row["yorumlar_id"]; ?></th>
-                                        <td><img width="75" height="75" src="../images/yorumlar/<?php echo $row["yorum_resim"]; ?>" alt="<?php echo $row["yorum_resim"]; ?>"></td>
-                                        <td><?php echo $row["yorum_isim"]; ?></td>
-                                        <td><?php echo $row["yorum_meslek"]; ?></td>
+                                        <th scope="row"><?php echo $row["ekip_id"]; ?></th>
+                                        <td><img width="75" height="75" src="../images/ekipler/<?php echo $row["ekip_resim"]; ?>" alt="<?php echo $row["ekip_resim"]; ?>"></td>
+                                        <td><?php echo $row["ekip_isim"]; ?></td>
+                                        <td><?php echo $row["ekip_mevki"]; ?></td>
                                         <td>
-                                            <a href="yorum-duzenle.php?yorumlar_id=<?= $row["yorumlar_id"]; ?>"><button class="btn btn-primary">Düzenle</button>
+                                            <a href="ekip-duzenle.php?ekip_id=<?= $row["ekip_id"]; ?>"><button class="btn btn-primary">Düzenle</button>
 
 
-                                                <a href="islem.php?yorumsil_id=<?= $row["yorumlar_id"]; ?>"><button class="btn btn-danger">Sil</button>
+                                                <a href="islem.php?ekipsil_id=<?= $row["ekip_id"]; ?>"><button class="btn btn-danger">Sil</button>
 
                                                 </a>
                                         </td>
@@ -121,7 +121,7 @@
                             } else {
                                 ?>
                                 <tr>
-                                    <td>Hiç yorum bulunmamamktadır!</td>
+                                    <td>Hiç ekibiniz bulunmamamktadır!</td>
                                 </tr>
                                 <?php
                             }

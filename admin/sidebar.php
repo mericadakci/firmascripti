@@ -72,6 +72,24 @@
                 </li>
                 <li>
                     <a href="javascript:void(0);" class="menu-toggle">
+                        <i class="material-icons">person</i>
+                        <span>Ekip Yönetimi</span>
+                    </a>
+                    <ul class="ml-menu">
+                        <li>
+                            <a href="ekipler.php">
+                                <span>Ekipler</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="ekip-ekle.php">
+                                <span>Ekip Ekle</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="menu-toggle">
                         <i class="material-icons">comment</i>
                         <span>Yorumlar Yönetimi</span>
                     </a>
