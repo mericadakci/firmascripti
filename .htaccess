@@ -1,0 +1,12 @@
+#Yönlendirmeleri aktif eder
+RewriteEngine on
+#Yeni bir yönlendirmelere aktif belirledik
+RewriteRule ^hizmetler/([0-9a-zA-Z-_]+)/([0-9]+)$ hizmet-detay.php?sef=$1&id=$2 [L,QSA]
+
+#SEO URL OLUŞTURMA
+RewriteCond ½{REQUEST_FILENAME} !-d
+RewriteCond ½{REQUEST_FILENAME}\.php -f
+RewriteRule ^(.*)$ $1.php
+
+#404 yönlendirme
+ErrorDocument 404 http://localhost/404.php

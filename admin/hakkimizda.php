@@ -15,7 +15,7 @@ $hakkimizda_cek = $hakkimizda->fetch(PDO::FETCH_ASSOC);
         <div class="container-fluid">
             <!-- GERİ DÖNÜŞ UYARILARI -->
               <?php
-              if ($_GET["hakkimizda-guncelle"]=="bos"){
+              if ($_POST["hakkimizda-guncelle"]=="bos"){
                   ?>
                   <div class="alert alert-warning">
                       <strong>Dikkat!</strong> Lütfen boş alan bırakmayınız...

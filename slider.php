@@ -8,7 +8,7 @@
 
         foreach ($slider_cek as $row){
          ?>
-            <div data-thumb="images/<?php echo $row["slider_resim"]; ?> " data-src="images/slider/<?php echo $row["slider_resim"]; ?>">
+            <div data-thumb="images/slider/<?php echo $row["slider_resim"]; ?> " data-src="images/slider/<?php echo $row["slider_resim"]; ?>">
                 <div class="camera_caption">
                     <div class="container">
                         <h5 class=" wow fadeInUp animated"><?php echo $row["slider_renklibaslik"]; ?> </h5>

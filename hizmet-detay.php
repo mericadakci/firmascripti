@@ -11,7 +11,7 @@
     <!-- End Banner area -->
 
     <?php
-    $hizmet_id = $_GET["hizmet_id"];
+    $hizmet_id = basename( $_SERVER['REQUEST_URI'] );
     $hizmetler = $db->prepare("SELECT * FROM hizmetler WHERE hizmet_id");
     $hizmetler->execute(array($hizmet_id));
     $hizmet_cek = $hizmetler->fetch(PDO::FETCH_ASSOC);

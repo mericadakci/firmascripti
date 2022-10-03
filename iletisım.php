@@ -2,10 +2,10 @@
 
     <!-- Banner area -->
     <section class="banner_area" data-stellar-background-ratio="0.5">
-        <h2>Contact Us</h2>
+        <h2>İLETİŞİM</h2>
         <ol class="breadcrumb">
             <li><a href="index.php">ANASAYFA</a></li>
-            <li><a href="#" class="active">İLETİŞİM</a></li>
+            <li><a href="javascript:void(0);" class="active">İLETİŞİM</a></li>
         </ol>
     </section>
     <!-- End Banner area -->
@@ -21,21 +21,18 @@
         <div class="container">
             <div class="row contact_row">
                 <div class="col-sm-6 contact_info">
-                    <h2>Contact Info</h2>
-                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-                    <div class="location">
+                    <h2>İLETİŞİM BİLGİLERİ</h2>                    <div class="location">
                         <div class="location_laft">
                             <a class="f_location" href="#">location</a>
-                            <a href="#">phone</a>
-                            <a href="#">fax</a>
-                            <a href="#">email</a>
+                            <a href="#">Telefon</a>
+                            <a href="#">Email</a>
                         </div>
                         <div class="address">
-                            <a href="#">Sector # 10, Road # 05, Plot # 31, Uttara, <br> Dhaka 1230 </a>
-                            <a href="#">+880 123 456 789</a>
-                            <a href="#">(626) 935-3026</a>
-                            <a href="#">info@thethemspro.com</a>
+                            <a href="#"><?php echo $ayarcek["site_adres"]; ?></a>
+                            <a href="#"><br></a>
+                            <a href="#"><?php echo $ayarcek["site_telefon"]; ?></a>
+                            <a href="#"></a>
+                            <a href="#"><?php echo $ayarcek["site_mail"]; ?></a>
                         </div>
                     </div>
                 </div>
@@ -67,12 +64,12 @@
 
 
                 <div class="col-sm-6 contact_info send_message">
-                    <h2>İletişime geçin</h2>
-                    <form action="" method="POST" id="mesajForm"class="form-inline contact_box" onsubmit="return false;">
-                        <input type="text" name="isim" class="form-control input_box" placeholder="Adınız *">
-                        <input type="text" name="mail" class="form-control input_box" placeholder="Email *">
+                    <h2>İLETİŞİME GEÇİN</h2>
+                    <form action="" method="POST" id="mesajForm" class="form-inline contact_box" onsubmit="return false;">
+                        <input type="text" name="isim" class="form-control input_box" placeholder="Adınız">
+                        <input type="text" name="mail" class="form-control input_box" placeholder="Email">
                         <input type="text" name="konu" class="form-control input_box" placeholder="Konu">
-                        <textarea class="form-control input_box" name="mesaj" placeholder="Mesajınız"></textarea>
+                        <textarea class="form-control input_box" name="mesaj" placeholder="Mesajınız.."></textarea>
                         <button type="submit" onclick="mesajGonder();" class="btn btn-default">Mesaj Gönder</button>
                     </form>
                 </div>

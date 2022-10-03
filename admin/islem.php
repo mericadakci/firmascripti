@@ -1,5 +1,8 @@
 <?php
 include "../config/database.php";
+include "kontrol.php";
+
+
 extract($_POST);
 if (isset($_GET["site_id"])) {
 
@@ -131,7 +134,7 @@ if (isset($sponsor_ekle)) {
     $hedef = "../images/sponsorlar/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
 
     if (!$_FILES["sponsor_resim"]["size"] > 0 || !$sponsor_isim) {
-       header("Location: sponsorlar.php?sponsor-ekle=bos");
+        header("Location: sponsorlar.php?sponsor-ekle=bos");
 
     } else {
         if ($kaynak) {
@@ -183,7 +186,7 @@ if (isset($sponsor_duzenle)) {
                 $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
                 $eski_resim["sponsor_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
 
-                unlink("../images/sponsorlar/".$eski_resim["sponsor_resim"]);
+                unlink("../images/sponsorlar/" . $eski_resim["sponsor_resim"]);
 
                 if (move_uploaded_file($kaynak, $hedef)) {
                     $query = $db->prepare("UPDATE sponsorlar SET sponsor_resim=?, sponsor_isim=? WHERE sponsor_id=?");
@@ -196,25 +199,25 @@ if (isset($sponsor_duzenle)) {
                 }
             }
         }
-    }else{
+    } else {
         $query = $db->prepare("UPDATE sponsorlar SET sponsor_isim=? WHERE sponsor_id=?");
-                    $update = $query->execute(array($sponsor_isim, $sponsor_id));
-                    if ($update) {
-                        header("Location: sponsorlar.php?sponsor-guncelle=yes");
-                    } else {
-                        header("Location: sponsorlar.php?sponsor-guncelle=no");
-                    }
+        $update = $query->execute(array($sponsor_isim, $sponsor_id));
+        if ($update) {
+            header("Location: sponsorlar.php?sponsor-guncelle=yes");
+        } else {
+            header("Location: sponsorlar.php?sponsor-guncelle=no");
+        }
     }
 }
 
 //SPONSOR SİLME İŞLEMİ
-if (isset($sponsorsil_id)){
+if (isset($sponsorsil_id)) {
     $sil = $db->prepare("SELECT * FROM sponsorlar WHERE sponsor_id=?");
     $sil->execute(array($sponsorsil_id));
     $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
     $eski_resim["sponsor_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
 
-    unlink("../images/sponsorlar/".$eski_resim["sponsor_resim"]);
+    unlink("../images/sponsorlar/" . $eski_resim["sponsor_resim"]);
 
     $query = $db->prepare("DELETE FROM sponsorlar WHERE sponsor_id=?");
     $delete = $query->execute(array($sponsorsil_id));
@@ -252,7 +255,7 @@ if (isset($proje_ekle)) {
             } else {
                 if (move_uploaded_file($kaynak, $hedef)) {
                     $query = $db->prepare("INSERT INTO projelerimiz SET proje_resim=?, proje_isim=?, proje_link=? ");
-                    $insert = $query->execute(array($resimAd, $proje_isim,$proje_link));
+                    $insert = $query->execute(array($resimAd, $proje_isim, $proje_link));
                     if ($insert) {
                         header("Location: projelerimiz.php?proje-ekle=yes");
                     } else {
@@ -293,7 +296,7 @@ if (isset($proje_duzenle)) {
                 $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
                 $eski_resim["proje_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
 
-                unlink("../images/fotograflar/".$eski_resim["proje_resim"]);
+                unlink("../images/fotograflar/" . $eski_resim["proje_resim"]);
 
                 if (move_uploaded_file($kaynak, $hedef)) {
                     $query = $db->prepare("UPDATE projelerimiz SET proje_resim=?, proje_isim=?, proje_link=? WHERE proje_id=?");
@@ -306,7 +309,7 @@ if (isset($proje_duzenle)) {
                 }
             }
         }
-    }else{
+    } else {
         $query = $db->prepare("UPDATE projelerimiz SET proje_isim=?, proje_link=? WHERE proje_id=?");
         $update = $query->execute(array($proje_isim, $proje_link, $proje_id));
         if ($update) {
@@ -318,13 +321,13 @@ if (isset($proje_duzenle)) {
 }
 
 //PROJE SİLME İŞLEMİ
-if (isset($projesil_id)){
+if (isset($projesil_id)) {
     $sil = $db->prepare("SELECT * FROM projelerimiz WHERE proje_id=?");
     $sil->execute(array($projesil_id));
     $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
     $eski_resim["proje_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
 
-    unlink("../images/fotograflar/".$eski_resim["proje_resim"]);
+    unlink("../images/fotograflar/" . $eski_resim["proje_resim"]);
 
     $query = $db->prepare("DELETE FROM projelerimiz WHERE proje_id=?");
     $delete = $query->execute(array($projesil_id));
@@ -359,7 +362,7 @@ if (isset($yorum_ekle)) {
             } else {
                 if (move_uploaded_file($kaynak, $hedef)) {
                     $query = $db->prepare("INSERT INTO yorumlar SET yorum_resim=?, yorum_isim=?, yorum_meslek=?, yorum_aciklama=?");
-                    $insert = $query->execute(array($resimAd, $yorum_isim,$yorum_meslek,$yorum_aciklama));
+                    $insert = $query->execute(array($resimAd, $yorum_isim, $yorum_meslek, $yorum_aciklama));
                     if ($insert) {
                         header("Location: yorumlar.php?yorum-ekle=yes");
                     } else {
@@ -400,7 +403,7 @@ if (isset($yorum_duzenle)) {
                 $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
                 $eski_resim["yorum_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
 
-                unlink("../images/yorumlar/".$eski_resim["yorum_resim"]);
+                unlink("../images/yorumlar/" . $eski_resim["yorum_resim"]);
 
                 if (move_uploaded_file($kaynak, $hedef)) {
                     $query = $db->prepare("UPDATE yorumlar SET yorum_resim=?, yorum_isim=?, yorum_meslek=?, yorum_aciklama=? WHERE yorumlar_id=?");
@@ -413,7 +416,7 @@ if (isset($yorum_duzenle)) {
                 }
             }
         }
-    }else{
+    } else {
         $query = $db->prepare("UPDATE yorumlar SET yorum_isim=?, yorum_meslek=?, yorum_aciklama WHERE yorumlar_id=?");
         $update = $query->execute(array($yorum_isim, $yorum_meslek, $yorum_aciklama, $yorumlar_id));
         if ($update) {
@@ -425,13 +428,13 @@ if (isset($yorum_duzenle)) {
 }
 
 //YORUM SİLME İŞLEMİ
-if (isset($yorumsil_id)){
+if (isset($yorumsil_id)) {
     $sil = $db->prepare("SELECT * FROM yorumlar WHERE yorumlar_id=?");
     $sil->execute(array($yorumsil_id));
     $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
     $eski_resim["yorum_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
 
-    unlink("../images/yorumlar/".$eski_resim["yorum_resim"]);
+    unlink("../images/yorumlar/" . $eski_resim["yorum_resim"]);
 
     $query = $db->prepare("DELETE FROM yorumlar WHERE yorumlar_id=?");
     $delete = $query->execute(array($yorumsil_id));
@@ -466,7 +469,7 @@ if (isset($ekip_ekle)) {
             } else {
                 if (move_uploaded_file($kaynak, $hedef)) {
                     $query = $db->prepare("INSERT INTO ekip SET ekip_resim=?, ekip_isim=?, ekip_mevki=?, ekip_facebook=?, ekip_twitter=?, ekip_linkedin=?");
-                    $insert = $query->execute(array($resimAd, $ekip_isim,$ekip_mevki,$ekip_facebook,$ekip_twitter,$ekip_linkedin));
+                    $insert = $query->execute(array($resimAd, $ekip_isim, $ekip_mevki, $ekip_facebook, $ekip_twitter, $ekip_linkedin));
                     if ($insert) {
                         header("Location: ekipler.php?ekip-ekle=yes");
                     } else {
@@ -507,7 +510,7 @@ if (isset($ekip_duzenle)) {
                 $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
                 $eski_resim["ekip_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
 
-                unlink("../images/ekipler/".$eski_resim["ekip_resim"]);
+                unlink("../images/ekipler/" . $eski_resim["ekip_resim"]);
 
                 if (move_uploaded_file($kaynak, $hedef)) {
                     $query = $db->prepare("UPDATE ekip SET ekip_resim=?, ekip_isim=?, ekip_mevki=?, ekip_facebook=?, ekip_twitter=?, ekip_linkedin=? WHERE ekip_id=?");
@@ -520,7 +523,7 @@ if (isset($ekip_duzenle)) {
                 }
             }
         }
-    }else{
+    } else {
         $query = $db->prepare("UPDATE ekip SET ekip_isim=?, ekip_mevki=?, ekip_facebook=?, ekip_twitter=?, ekip_linkedin=? WHERE ekip_id=?");
         $update = $query->execute(array($ekip_isim, $ekip_mevki, $ekip_facebook, $ekip_twitter, $ekip_linkedin, $ekip_id));
         if ($update) {
@@ -532,13 +535,13 @@ if (isset($ekip_duzenle)) {
 }
 
 //EKİP SİLME İŞLEMİ
-if (isset($ekipsil_id)){
+if (isset($ekipsil_id)) {
     $sil = $db->prepare("SELECT * FROM ekip WHERE ekip_id=?");
     $sil->execute(array($ekipsil_id));
     $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
     $eski_resim["ekip_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
 
-    unlink("../images/ekipler/".$eski_resim["ekip_resim"]);
+    unlink("../images/ekipler/" . $eski_resim["ekip_resim"]);
 
     $query = $db->prepare("DELETE FROM ekip WHERE ekip_id=?");
     $delete = $query->execute(array($ekipsil_id));
@@ -573,7 +576,7 @@ if (isset($slider_ekle)) {
             } else {
                 if (move_uploaded_file($kaynak, $hedef)) {
                     $query = $db->prepare("INSERT INTO slider SET slider_resim=?, slider_renklibaslik=?, slider_normalbaslik=?, slider_link=?, slider_aciklama=?");
-                    $insert = $query->execute(array($resimAd, $slider_renklibaslik,$slider_normalbaslik,$slider_link,$slider_aciklama));
+                    $insert = $query->execute(array($resimAd, $slider_renklibaslik, $slider_normalbaslik, $slider_link, $slider_aciklama));
                     if ($insert) {
                         header("Location: slider.php?slide-ekle=yes");
                     } else {
@@ -614,7 +617,7 @@ if (isset($slide_duzenle)) {
                 $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
                 $eski_resim["slider_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
 
-                unlink("../images/slider/".$eski_resim["slider_resim"]);
+                unlink("../images/slider/" . $eski_resim["slider_resim"]);
 
                 if (move_uploaded_file($kaynak, $hedef)) {
                     $query = $db->prepare("UPDATE slider SET slider_resim=?, slider_renklibaslik=?, slider_normalbaslik=?, slider_aciklama=?, slider_link=? WHERE slider_id=?");
@@ -627,7 +630,7 @@ if (isset($slide_duzenle)) {
                 }
             }
         }
-    }else{
+    } else {
         $query = $db->prepare("UPDATE slider SET slider_renklibaslik=?, slider_normalbaslik=?, slider_aciklama=?, slider_link=? WHERE slider_id=?");
         $update = $query->execute(array($slider_renklibaslik, $slider_normalbaslik, $slider_aciklama, $slider_link, $slider_id));
         if ($update) {
@@ -635,5 +638,195 @@ if (isset($slide_duzenle)) {
         } else {
             header("Location: slider.php?slide-guncelle=no");
         }
+    }
+}
+
+//SLİDER SİLME İŞLEMİ
+if (isset($slidersil_id)) {
+    $sil = $db->prepare("SELECT * FROM slider WHERE slider_id=?");
+    $sil->execute(array($slidersil_id));
+    $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
+    $eski_resim["slider_resim"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
+
+    unlink("../images/slider/" . $eski_resim["slider_resim"]);
+
+    $query = $db->prepare("DELETE FROM slider WHERE slider_id=?");
+    $delete = $query->execute(array($slidersil_id));
+    if ($delete) {
+        header("Location: slider.php?slide-sil=yes");
+    } else {
+        header("Location: sldier.php?slide-sil=no");
+    }
+}
+
+//LOGO GÜNCELLE
+if (isset($logo_duzenle)) {
+    $logo_id = $_GET["logo_id"];
+
+    if ($_FILES["lf_logo"]["size"] > 0) {
+
+        $kaynak = $_FILES["lf_logo"]["tmp_name"]; //fotoğrafın geçici olarak yüklendigi yer veya isim
+        $isim = $_FILES["lf_logo"]["name"];  //fotoğrafın ismi
+        $boyut = $_FILES["lf_logo"]["size"]; //fotoğraf boyutu
+        $turu = $_FILES["lf_logo"]["type"]; //fotoğrafın türü
+
+        $uzanti = substr($isim, strpos($isim, ".") + 1); //noktadan sonra harften okumaya başla
+        $resimAd = substr(uniqid(rand()), 0, 11) . "_" . $isim; //Fotoğrafın yeni ismini belirledik
+        $hedef = "../images/logofavicon/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
+
+
+        if ($kaynak) {
+            if (!in_array($turu, $dosya_turu) && !in_array($uzanti, $dosya_uzanti)) {
+                header("Location: logo-favicon.php?logo-guncelle=gecersizuzanti");
+            } elseif ($boyut > 1024 * 1024 * 5) {
+                header("Location: logo-favicon.php?logo-guncelle=buyuk");
+            } else {
+
+                // ÖNCEKİ RESMİ SİLELİM
+                $sil = $db->prepare("SELECT * FROM logofavicon WHERE lf_id=?");
+                $sil->execute(array($logo_id));
+                $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
+                $eski_resim["lf_logo"]; // ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
+
+                unlink("../images/logofavicon/" . $eski_resim["lf_logo"]);
+
+                if (move_uploaded_file($kaynak, $hedef)) {
+                    $query = $db->prepare("UPDATE logofavicon SET lf_logo=? WHERE lf_id=?");
+                    $update = $query->execute(array($resimAd, $logo_id));
+                    if ($update) {
+                        header("Location: logo-favicon.php?logo-guncelle=yes");
+                    } else {
+                        header("Location: logo-favicon.php?logo-guncelle=no");
+                    }
+                }
+            }
+        }
+    }
+}
+
+//FAVİCON GÜNCELLE
+if (isset($favicon_duzenle)) {
+    $favicon_id = $_GET["favicon_id"];
+
+    if ($_FILES["lf_favicon"]["size"] > 0) {
+
+        $kaynak = $_FILES["lf_favicon"]["tmp_name"]; //fotoğrafın geçici olarak yüklendigi yer veya isim
+        $isim = $_FILES["lf_favicon"]["name"];  //fotoğrafın ismi
+        $boyut = $_FILES["lf_favicon"]["size"]; //fotoğraf boyutu
+        $turu = $_FILES["lf_favicon"]["type"]; //fotoğrafın türü
+
+        $uzanti = substr($isim, strpos($isim, ".") + 1); //noktadan sonra harften okumaya başla
+        $resimAd = substr(uniqid(rand()), 0, 11) . "_" . $isim; //Fotoğrafın yeni ismini belirledik
+        $hedef = "../images/logofavicon/" . $resimAd; //Fotoğrafın nereye yüklenecegini bellirttik
+
+
+        if ($kaynak) {
+            if (!in_array($turu, $dosya_turu) && !in_array($uzanti, $dosya_uzanti)) {
+                header("Location: logo-favicon.php?favicon-guncelle=gecersizuzanti");
+            } elseif ($boyut > 1024 * 1024 * 5) {
+                header("Location: logo-favicon.php?favicon-guncelle=buyuk");
+            } else {
+
+                // ÖNCEKİ RESMİ SİLELİM
+                $sil = $db->prepare("SELECT * FROM logofavicon WHERE lf_id=?");
+                $sil->execute(array($favicon_id));
+                $eski_resim = $sil->fetch(PDO::FETCH_ASSOC);
+                $eski_resim["lf_favicon"];// ESKİ RESMİMİZİ SİLMEMİZ İÇİN GEREKLİ OLAN KOD
+
+                unlink("../images/logofavicon/" . $eski_resim["lf_favicon"]);
+
+                if (move_uploaded_file($kaynak, $hedef)) {
+                    $query = $db->prepare("UPDATE logofavicon SET lf_favicon=? WHERE lf_id=?");
+                    $update = $query->execute(array($resimAd, $favicon_id));
+                    if ($update) {
+                        header("Location: logo-favicon.php?favicon-guncelle=yes");
+                    } else {
+                        header("Location: logo-favicon.php?favicon-guncelle=no");
+                    }
+                }
+            }
+        }
+    }
+}
+
+# ADMİN GÜNCELLE DÜZENLEME
+if (isset($kadi_degistir)) {
+
+    $admin_id = $_GET["admin_id"];
+    if ($admin_kadi) {
+        $adminguncelle = $db->prepare("UPDATE admin SET admin_kadi=? WHERE admin_id=?");
+        $adminupdate = $adminguncelle->execute(array($admin_kadi, $admin_id));
+
+        if ($adminupdate) {
+            header("Location: profil.php?update=yes");
+        } else {
+            header("Location: profil.php?update=no");
+        }
+
+    } else {
+        header("Location: profil.php?update=bos");
+    }
+}
+
+//ADMİN ŞİFRE DUZENLEME
+if (isset($_POST["sifre_degistir"])) {
+    $id = $_GET["admin_id"];
+
+    $eski_sifre = md5($_POST["eski_sifre"]);
+    $yeni_sifre = md5($_POST["yeni_sifre"]);
+
+
+    $kullanicisor = $db->prepare("SELECT * FROM admin WHERE admin_sifre=:admin_sifre");
+    $kullanicisor->execute(array('admin_sifre' => $eski_sifre));
+    //dönen satır sayısını belirtir
+    $say = $kullanicisor->rowCount();
+
+
+    if ($say == 0) {
+        header("Location: profil.php?update=eskisifrehata");
+    } else {
+        $adminguncelle = $db->prepare("UPDATE admin SET admin_sifre=? WHERE admin_id=?");
+        $adminupdate = $adminguncelle->execute(array($yeni_sifre, $id));
+        if ($adminupdate) {
+            header("Location: profil.php?update=yes");
+        } else {
+            header("Location: profil.php?update=no");
+        }
+    }
+}
+//GİRİŞ İŞLEMİ
+if (isset($_POST["giris"])) {
+
+    $admin_kadi = htmlspecialchars(trim($_POST["admin_kadi"]));
+    $admin_sifre = htmlspecialchars(trim(md5($_POST["admin_sifre"])));
+
+    if (!$admin_kadi || !$admin_sifre) {
+        header("Location: login.php?giris=bos");
+    } else {
+
+        $query = $db->prepare("SELECT * FROM admin WHERE admin_kadi=? AND admin_sifre=?");
+            $query->execute(array($admin_kadi, $admin_sifre));
+        $admin_giris = $query->fetch(PDO::FETCH_ASSOC);
+
+        if ($admin_giris) {
+            $_SESSION["login"] = true;
+            $_SESSION["admin_kadi"] = $admin_giris["admin_kadi"];
+            $_SESSION["admin_id"] = $admin_giris["admin_id"];
+
+            header("Location: index.php");
+        }else{
+            header("Location: login.php?giris=no");
+        }
+    }
+}
+
+//MESAJ SİLME İŞLEMİ
+if (isset($mesajsil_id)) {
+    $query = $db->prepare("DELETE FROM mesajlar WHERE mesaj_id=?");
+    $delete = $query->execute(array($mesajsil_id));
+    if ($delete) {
+        header("Location: mesajlar.php?mesaj-sil=yes");
+    } else {
+        header("Location: mesajlar.php?mesaj-sil=no");
     }
 }

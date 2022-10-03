@@ -13,25 +13,42 @@
                 </ul>
             </div>
             <div class="col-md-3 col-sm-6 footer_about quick">
-                <h2>Quick links</h2>
+                <h2>HİZMETLER</h2>
                 <ul class="quick_link">
-                    <li><a href="#"><i class="fa fa-chevron-right"></i>Building Construction</a></li>
-                    <li><a href="#"><i class="fa fa-chevron-right"></i>Home Renovation</a></li>
-                    <li><a href="#"><i class="fa fa-chevron-right"></i>Hardwood Flooring</a></li>
-                    <li><a href="#"><i class="fa fa-chevron-right"></i>Repairing Of Roof</a></li>
-                    <li><a href="#"><i class="fa fa-chevron-right"></i>Commercial Construction</a></li>
-                    <li><a href="#"><i class="fa fa-chevron-right"></i>Concreate Transport</a></li>
+                    <?php
+                    $hizmetler = $db->prepare("SELECT * FROM hizmetler ORDER BY hizmet_id DESC");
+                    $hizmetler->execute();
+                    $hizmet_listele = $hizmetler->fetchAll(PDO::FETCH_ASSOC);
+
+                    foreach ($hizmet_listele as $row){
+                        ?>
+                        <li><a href="hizmet-detay.php?hizmet_id=<?php echo $row["hizmet_id"]; ?>"><i class="fa fa-chevron-right"></i><?php echo $row["hizmet_baslik"]; ?></a></li>
+                    <?php
+                    }
+                    ?>
+
                 </ul>
             </div>
             <div class="col-md-3 col-sm-6 footer_about">
-                <h2>Twitter Feed</h2>
-                <a href="#" class="twitter">@colorlib: Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.</a>
-                <a href="#" class="twitter">@colorlib: Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat.</a>
+                <h2>PROJELERİMİZ</h2>
+                <ul class="quick_link">
+                <?php
+                $projelerimiz = $db->prepare("SELECT * FROM projelerimiz LIMIT 5");
+                $projelerimiz->execute();
+                $proje_listele = $projelerimiz->fetchAll(PDO::FETCH_ASSOC);
+
+                foreach ($proje_listele as $row){
+                    ?>
+                    <li><a href="<?php echo $row["proje_link"]; ?><?php echo $row["hizmet_id"]; ?>"><i class="fa fa-chevron-right"></i><?php echo $row["proje_isim"]; ?></a></li>
+                    <?php
+                }
+                ?>
+                </ul>
             </div>
             <div class="col-md-3 col-sm-6 footer_about">
-                <h2>CONTACT US</h2>
+                <h2>İLETİŞİM</h2>
                 <address>
-                    <p>Have questions, comments or just want to say hello:</p>
+                    <p>Bizimle iletişime geçebilirsiniz...</p>
                     <ul class="my_address">
                         <li><a href="https://accounts.google.com/v3/signin/identifier?dsh=S-200854979%3A1661334099843348&continue=https%3A%2F%2Faccounts.google.com%2Fb%2F1%2FAddMailService&followup=https%3A%2F%2Faccounts.google.com%2Fb%2F1%2FAddMailService&passive=1209600&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AQN2RmV12csuyjqyxaSlMBnPGokaqgWqCl6VjXqEY5U1w7Vki_kGxSEmOuQ8eLxm5jiAhSkoNa32Yg"><i class="fa fa-envelope" aria-hidden="true"></i><?php echo $ayarcek["site_mail"]; ?></a></li>
                         <li><a><i class="fa fa-phone" aria-hidden="true"></i><?php echo $ayarcek["site_telefon"]; ?></a></li>

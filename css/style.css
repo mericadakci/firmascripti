@@ -2008,22 +2008,23 @@ a:focus, a:hover, .btn:focus, .btn:hover, button:focus, button:hover {
   height: 50px;
   padding-left: 15px;
   width: 100%;
-  color: #d3dadf;
+  color: #000000;
   margin-bottom: 20px;
 }
 .all_contact_info .contact_row .send_message .contact_box .input_box.placeholder {
-  color: #d3dadf;
+  color: #4a4a4a;
 }
 .all_contact_info .contact_row .send_message .contact_box .input_box:-moz-placeholder {
-  color: #d3dadf;
+  color: #4a4a4a;
 }
 .all_contact_info .contact_row .send_message .contact_box .input_box::-webkit-input-placeholder {
-  color: #d3dadf;
+  color: #4a4a4a;
 }
 .all_contact_info .contact_row .send_message .contact_box textarea {
   height: 120px !important;
   resize: none;
 }
+
 .all_contact_info .contact_row .send_message .contact_box button {
   color: #fefefe;
   font: 400 14px/40px "Roboto", sans-serif;

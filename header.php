@@ -1,14 +1,20 @@
 <?php
 include "config/database.php";
+include "config/seourl.php";
 
 $ayarlar = $db->prepare("SELECT * FROM ayarlar site_id");
 $ayarlar->execute();
 $ayarcek = $ayarlar->fetch(PDO::FETCH_ASSOC);
 
+
+$logofavicon = $db->prepare("SELECT * FROM logofavicon");
+$logofavicon->execute();
+$favicon_cek = $logofavicon->fetch(PDO::FETCH_ASSOC);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="<?php echo $ayarcek["site_url"]; ?>">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,9 +23,9 @@ $ayarcek = $ayarlar->fetch(PDO::FETCH_ASSOC);
 
     <meta name="description" content="<?php echo $ayarcek["site_dasc"]; ?>
     <meta name="keywords" content="<?php echo $ayarcek["site_keyw"]; ?>
-    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="images/logofavicon/" type="image/x-icon">
     <!-- Favicon -->
-    <link rel="icon" href="images/favicon.png" type="image/x-icon">
+    <link rel="icon" href="images/logofavicon/<?php echo $favicon_cek["lf_favicon"]; ?>" type="image/x-icon">
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <!-- Animate CSS -->
@@ -91,7 +97,7 @@ $ayarcek = $ayarlar->fetch(PDO::FETCH_ASSOC);
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php"><img src="images/logo.png" alt=""></a>
+                <a class="navbar-brand" href="index.php"><img src="images/logofavicon/<?php echo $favicon_cek["lf_logo"]; ?>" alt=""></a>
             </div>
         </div>
 
@@ -116,7 +122,7 @@ $ayarcek = $ayarlar->fetch(PDO::FETCH_ASSOC);
 
                             foreach ($hizmet_cek as $row) {
                                 ?>
-                                <li><a href="hizmet-detay.php?hizmet_id=<?php echo $row["hizmet_id"]; ?>"><?php echo $row["hizmet_baslik"]; ?></a></li>
+                                <li><a href="hizmetler/<?php echo seoLink($row['hizmet_baslik'])."/".$row['hizmet_id']; ?>"><?php echo $row["hizmet_baslik"]; ?></a></li>
                             <?php
                             }
                             ?>
